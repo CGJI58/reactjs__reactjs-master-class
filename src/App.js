@@ -1,34 +1,52 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const Father = styled.div`
-  display: flex;
+const Emoji = styled.div`
+  font-size: 12px;
 `;
 
 const Box = styled.div`
-  background-color: ${({ bgColor }) => bgColor};
   width: 100px;
   height: 100px;
+  background-color: ${({ bgColor }) => bgColor};
 `;
 
-const Circle = styled(Box)`
-  border-radius: 50%;
-`;
+const RotationAnimation = keyframes`
+    0% {
+      border-radius: 0%;
+      transform: rotate(0deg);
+    }
+    50% {
+      border-radius:50%;
+      transform: rotate(360deg);
+    }
+    100% {
+      border-radius: 0%;
+      transform: rotate(0deg);
+    }
+  `;
 
-const Input = styled.input.attrs({ required: true, minLength: 10 })`
-  background-color: tomato;
+const MovingCircle = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ${RotationAnimation} 3s linear infinite;
+  ${Emoji} {
+    &:hover {
+      font-size: 42px;
+    }
+    &:active {
+      opacity: 0;
+    }
+  }
 `;
 
 function App() {
   return (
-    <Father as={"main"}>
-      <Box bgColor="black" />
-      <Circle bgColor="teal" />
-      <Input />
-      <Input />
-      <Input />
-      <Input />
-      <Input />
-    </Father>
+    <Box bgColor="grey">
+      <MovingCircle bgColor="teal">
+        <Emoji>❤️</Emoji>
+      </MovingCircle>
+    </Box>
   );
 }
 
