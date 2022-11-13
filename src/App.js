@@ -1,13 +1,18 @@
 import styled, { keyframes } from "styled-components";
 
-const Emoji = styled.div`
-  font-size: 12px;
-`;
-
 const Box = styled.div`
   width: 100px;
   height: 100px;
-  background-color: ${({ bgColor }) => bgColor};
+  background-color: ${({ theme }) => theme.backgroundColor};
+`;
+
+const Input = styled.input.attrs({ required: true, maxLength: 10 })`
+  background-color: ${({ theme }) => theme.backgroundColor};
+  color: ${({ theme }) => theme.textColor};
+`;
+
+const Emoji = styled.div`
+  font-size: 12px;
 `;
 
 const RotationAnimation = keyframes`
@@ -46,6 +51,9 @@ function App() {
       <MovingCircle bgColor="teal">
         <Emoji>❤️</Emoji>
       </MovingCircle>
+      <Input />
+      <Input />
+      <Input />
     </Box>
   );
 }
