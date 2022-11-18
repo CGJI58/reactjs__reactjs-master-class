@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+
+const Form = styled.form`
+  background-color: ${(props) => props.theme.bgColor};
+`;
 
 const App = () => {
   const [username, setUsername] = useState<string>("");
@@ -15,10 +20,10 @@ const App = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       <input value={username} onChange={onChange} />
       <button>Log in</button>
-    </form>
+    </Form>
   );
 };
 
