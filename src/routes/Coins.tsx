@@ -5,6 +5,8 @@ import styled from "styled-components";
 
 const Container = styled.div`
   padding: 0px 20px;
+  max-width: 480px;
+  margin: 0 auto;
 `;
 
 const Header = styled.header`
@@ -30,15 +32,27 @@ const Coin = styled.li`
   color: ${(props) => props.theme.bgColor};
   font-weight: 600;
   a {
+    display: flex;
+    align-items: center;
     padding: 20px;
     transition: color 0.2s ease-in;
-    display: block;
   }
   &:hover {
     a {
       color: ${(props) => props.theme.accentColor};
     }
   }
+`;
+
+const Loader = styled.span`
+  text-align: center;
+  display: block;
+`;
+
+const Img = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
 `;
 
 interface Coininterface {
@@ -51,17 +65,13 @@ interface Coininterface {
   type: string;
 }
 
-const Loader = styled.span`
-  text-align: center;
-  display: block;
-`;
-
 function Coins() {
   const [coins, setCoins] = useState<Coininterface[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getCoins = async () => {
     const res = await axios("https://api.coinpaprika.com/v1/coins");
+    console.log(res.data.slice(0, 3));
     setCoins(res.data.slice(0, 100));
     setLoading(false);
   };
@@ -81,7 +91,17 @@ function Coins() {
         <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+              <Link
+                to={{
+                  pathname: `/${coin.id}`,
+                  state: { name: coin.name },
+                }}
+              >
+                <Img
+                  src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
+                />
+                {coin.name} &rarr;
+              </Link>
             </Coin>
           ))}
         </CoinsList>
