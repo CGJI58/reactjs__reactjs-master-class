@@ -71,7 +71,6 @@ function Coins() {
 
   const getCoins = async () => {
     const res = await axios("https://api.coinpaprika.com/v1/coins");
-    console.log(res.data.slice(0, 3));
     setCoins(res.data.slice(0, 100));
     setLoading(false);
   };
