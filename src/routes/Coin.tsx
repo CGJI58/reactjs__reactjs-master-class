@@ -99,24 +99,26 @@ function Coin() {
 
   useEffect(() => {
     (async () => {
-      const infoData: IInfoData = await axios(
-        `https://api.coinpaprika.com/v1/coins/${coinId}`
-      );
-      const priceData: IPriceData = await axios(
-        `https://api.coinpaprika.com/v1/tickers/${coinId}`
-      );
+      const infoData: IInfoData = await (
+        await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`)
+      ).data;
+
+      const priceData: IPriceData = await (
+        await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
+      ).data;
+
       setInfo(infoData);
       setPrice(priceData);
-      console.log(priceData);
       setLoading(false);
     })();
-  }, []);
+  }, [coinId]);
+
   return (
     <Container>
       <Header>
         <Title>{state?.name || "Loading..."}</Title>
       </Header>
-      {loading ? <Loader>Loading...</Loader> : <span>asdf</span>}
+      {loading ? <Loader>Loading...</Loader> : <span>{info?.description}</span>}
     </Container>
   );
 }
