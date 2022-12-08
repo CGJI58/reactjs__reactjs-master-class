@@ -13,6 +13,21 @@ import { fetchCoinInfo, fetchCoinTicker } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
 
+const Header = styled.header`
+  height: 15vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BackToHome = styled.strong`
+  font-size: 12px;
+  font-weight: 600;
+  color: ${(props) => props.theme.accentColor};
+  align-self: flex-start;
+`;
+
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
@@ -27,13 +42,6 @@ const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
   margin: 0 auto;
-`;
-
-const Header = styled.header`
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Overview = styled.div`
@@ -173,6 +181,15 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
+        <BackToHome>
+          <Link
+            to={{
+              pathname: "/",
+            }}
+          >
+            &larr; Home
+          </Link>
+        </BackToHome>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
@@ -192,7 +209,7 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              <span>{tickerData?.quotes.USD.price.toFixed(3)}</span>
+              <span>{tickerData?.quotes.USD.price.toFixed(4)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>

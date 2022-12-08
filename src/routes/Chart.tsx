@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
+import { theme } from "../theme";
 
 interface IChartProps {
   coinId: string;
@@ -15,6 +16,7 @@ interface IHistoricalData {
   close: string;
   volume: string;
   market_cap: number;
+  error?: string;
 }
 
 function Chart({ coinId }: IChartProps) {
@@ -22,71 +24,92 @@ function Chart({ coinId }: IChartProps) {
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId)
   );
-
-  return (
-    <>
-      {isLoading ? (
-        "Loading chart..."
-      ) : (
-        <ApexChart
-          type="line"
-          series={[
-            {
-              name: "Price",
-              data: data?.map((item) => parseFloat(item.close)) ?? [],
-            },
-          ]}
-          options={{
-            theme: {
-              mode: "dark",
-            },
-            chart: {
-              width: 500,
-              height: 300,
-              toolbar: {
-                show: false,
+  try {
+    return (
+      <>
+        {isLoading ? (
+          "Loading chart..."
+        ) : (
+          <ApexChart
+            options={{
+              chart: {
+                type: "candlestick",
+                toolbar: {
+                  show: false,
+                },
+                background: "transparent",
               },
-              background: "transparent",
-            },
-            grid: {
-              show: false,
-            },
-            yaxis: {
-              show: false,
-            },
-            xaxis: {
-              type: "datetime",
-              categories: data?.map((item) =>
-                new Date(item.time_close * 1000).toUTCString()
-              ),
-              labels: {
+              grid: {
                 show: true,
-                rotate: -45,
-                datetimeFormatter: {
-                  month: "MMM 'yy",
+              },
+              xaxis: {
+                type: "datetime",
+                categories: data?.map(
+                  (item) => new Date(item.time_close * 1000 ?? 0)
+                ),
+                labels: {
+                  show: true,
+                  datetimeFormatter: {
+                    month: "MMM 'yy",
+                  },
+                  style: {
+                    colors: theme.textColor,
+                  },
                 },
               },
-            },
-            stroke: {
-              curve: "smooth",
-              width: 3,
-            },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
-            },
-            colors: ["#0fbcf9"],
-            tooltip: {
-              y: {
-                formatter: (value) =>
-                  `$${value >= 10 ? value.toFixed(2) : value.toFixed(3)}`,
+              yaxis: {
+                show: true,
+                tooltip: {
+                  enabled: true,
+                },
+                labels: {
+                  formatter: (value) =>
+                    `$${
+                      value >= 1000
+                        ? value.toFixed(0)
+                        : value >= 100
+                        ? value.toFixed(1)
+                        : value >= 10
+                        ? value.toFixed(2)
+                        : value.toFixed(3)
+                    }`,
+                  style: {
+                    colors: theme.textColor,
+                  },
+                },
               },
-            },
-          }}
-        />
-      )}
-    </>
-  );
+              tooltip: {
+                enabled: true,
+                theme: "dark",
+              },
+            }}
+            series={[
+              {
+                name: "candle",
+                data:
+                  data?.map((item) => {
+                    return {
+                      x: new Date(item.time_open * 1000 ?? 0),
+                      y: [
+                        Number(item.open),
+                        Number(item.high),
+                        Number(item.low),
+                        Number(item.close),
+                      ],
+                    };
+                  }) ?? [],
+              },
+            ]}
+            type="candlestick"
+            height={350}
+          ></ApexChart>
+        )}
+      </>
+    );
+  } catch (error) {
+    console.log(error);
+    return <>Price data not found. 😢</>;
+  }
 }
 
 export default Chart;
