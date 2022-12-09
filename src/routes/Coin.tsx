@@ -79,7 +79,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   font-size: 12px;
   font-weight: 400;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 7px 0px;
+  padding: 8px 0px;
   border-radius: 10px;
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
@@ -135,15 +135,15 @@ interface ITickerData {
       ath_price: number;
       market_cap: number;
       market_cap_change_24h: number;
-      percent_change_1h: number;
-      percent_change_1y: number;
-      percent_change_6h: number;
-      percent_change_7d: number;
-      percent_change_12h: number;
       percent_change_15m: number;
-      percent_change_24h: number;
-      percent_change_30d: number;
       percent_change_30m: number;
+      percent_change_1h: number;
+      percent_change_6h: number;
+      percent_change_12h: number;
+      percent_change_24h: number;
+      percent_change_7d: number;
+      percent_change_30d: number;
+      percent_change_1y: number;
       percent_from_price_ath: number;
       price: number;
       volume_24h: number;
@@ -172,7 +172,6 @@ function Coin() {
   );
 
   const loading = infoLoading || tickerLoading;
-
   return (
     <Container>
       <Helmet>
@@ -228,15 +227,22 @@ function Coin() {
               <Link to={`/${coinId}/chart`}>Chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>Price</Link>
+              <Link
+                to={{
+                  pathname: `/${coinId}/price`,
+                  state: { tickerData: tickerData },
+                }}
+              >
+                Price
+              </Link>
             </Tab>
           </Tabs>
           <Switch>
-            <Route path={`/:coinId/price`}>
-              <Price />
-            </Route>
             <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} />
+            </Route>
+            <Route path={`/:coinId/price`}>
+              <Price />
             </Route>
           </Switch>
         </>

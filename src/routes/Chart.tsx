@@ -16,7 +16,6 @@ interface IHistoricalData {
   close: string;
   volume: string;
   market_cap: number;
-  error?: string;
 }
 
 function Chart({ coinId }: IChartProps) {
