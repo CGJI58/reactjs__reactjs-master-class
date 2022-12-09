@@ -204,11 +204,11 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${infoData?.symbol}</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Price:</span>
-              <span>{tickerData?.quotes.USD.price.toFixed(4)}</span>
+              {/* <span>Price:</span>
+              <span>{tickerData?.quotes.USD.price.toFixed(4)}</span> */}
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
