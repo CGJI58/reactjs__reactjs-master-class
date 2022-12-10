@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
-import { theme } from "../theme";
+import { darkTheme } from "../theme";
 
 interface IChartProps {
   coinId: string;
@@ -52,7 +52,7 @@ function Chart({ coinId }: IChartProps) {
                     month: "MMM 'yy",
                   },
                   style: {
-                    colors: theme.textColor,
+                    colors: darkTheme.textColor,
                   },
                 },
               },
@@ -73,7 +73,7 @@ function Chart({ coinId }: IChartProps) {
                         : value.toFixed(3)
                     }`,
                   style: {
-                    colors: theme.textColor,
+                    colors: darkTheme.textColor,
                   },
                 },
               },
