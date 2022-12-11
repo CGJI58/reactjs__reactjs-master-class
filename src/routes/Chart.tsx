@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
 import { darkTheme } from "../theme";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface IChartProps {
   coinId: string;
@@ -19,6 +21,7 @@ interface IHistoricalData {
 }
 
 function Chart({ coinId }: IChartProps) {
+  const darkMode = useRecoilValue(isDarkAtom);
   const { isLoading, data } = useQuery<IHistoricalData[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId)
@@ -31,6 +34,9 @@ function Chart({ coinId }: IChartProps) {
         ) : (
           <ApexChart
             options={{
+              theme: {
+                mode: darkMode ? "dark" : "light",
+              },
               chart: {
                 type: "candlestick",
                 toolbar: {
@@ -51,9 +57,6 @@ function Chart({ coinId }: IChartProps) {
                   datetimeFormatter: {
                     month: "MMM 'yy",
                   },
-                  style: {
-                    colors: darkTheme.textColor,
-                  },
                 },
               },
               yaxis: {
@@ -72,9 +75,6 @@ function Chart({ coinId }: IChartProps) {
                         ? value.toFixed(2)
                         : value.toFixed(3)
                     }`,
-                  style: {
-                    colors: darkTheme.textColor,
-                  },
                 },
               },
               tooltip: {
