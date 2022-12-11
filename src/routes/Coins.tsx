@@ -97,7 +97,7 @@ function Coins() {
             <Coin key={coin.id}>
               <Link
                 to={{
-                  pathname: `/${coin.id}`,
+                  pathname: `/reactjs__reactjs-master-class/${coin.id}`,
                   state: { name: coin.name },
                 }}
               >

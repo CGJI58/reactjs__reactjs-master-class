@@ -155,8 +155,12 @@ interface ITickerData {
 function Coin() {
   const { coinId } = useParams<IRouteParams>();
   const { state } = useLocation<IRouteState>();
-  const priceMatch = useRouteMatch("/:coinId/price");
-  const chartMatch = useRouteMatch("/:coinId/chart");
+  const priceMatch = useRouteMatch(
+    "/reactjs__reactjs-master-class/:coinId/price"
+  );
+  const chartMatch = useRouteMatch(
+    "/reactjs__reactjs-master-class/:coinId/chart"
+  );
 
   const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(
     ["info", coinId],
@@ -183,7 +187,7 @@ function Coin() {
         <BackToHome>
           <Link
             to={{
-              pathname: "/",
+              pathname: "/reactjs__reactjs-master-class",
             }}
           >
             &larr; Home
@@ -224,12 +228,14 @@ function Coin() {
           </Overview>
           <Tabs>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>Chart</Link>
+              <Link to={`/reactjs__reactjs-master-class/${coinId}/chart`}>
+                Chart
+              </Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
               <Link
                 to={{
-                  pathname: `/${coinId}/price`,
+                  pathname: `/reactjs__reactjs-master-class/${coinId}/price`,
                   state: { tickerData: tickerData },
                 }}
               >
@@ -238,10 +244,10 @@ function Coin() {
             </Tab>
           </Tabs>
           <Switch>
-            <Route path={`/:coinId/chart`}>
+            <Route path={`/reactjs__reactjs-master-class/:coinId/chart`}>
               <Chart coinId={coinId} />
             </Route>
-            <Route path={`/:coinId/price`}>
+            <Route path={`/reactjs__reactjs-master-class/:coinId/price`}>
               <Price />
             </Route>
           </Switch>

@@ -74,7 +74,6 @@ const App = () => {
   return (
     <>
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <button onClick={toggleThemeMode}>Toggle Mode</button>
         <GlobalStyle />
         <Router />
         <ReactQueryDevtools initialIsOpen={true} />
